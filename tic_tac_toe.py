@@ -104,13 +104,16 @@ def restart_game(sc):
     pg.draw.line(sc, WHITE, (0, 400), (600, 400), 10)
 
 
-x = []
-o = []
+x_cell_list = []
+o_cell_list = []
 app_resolution = (600, 600)
+is_x_turn = True
+is_finished = False
+
 WHITE = (255, 255, 255)
 GREY = (150, 150, 150)
 BLACK = (0, 0, 0)
-is_x = True
+
 if __name__ == '__main__':
     pg.font.init()
     sc = pg.display.set_mode(app_resolution)
@@ -122,24 +125,27 @@ if __name__ == '__main__':
             if i.type == pg.QUIT:
                 sys.exit()
             if i.type == pg.KEYDOWN:
-                x.clear()
-                o.clear()
-                is_x = True
+                x_cell_list.clear()
+                o_cell_list.clear()
+                is_x_turn = True
                 restart_game(sc)
             if i.type == pg.MOUSEBUTTONDOWN:
                 if i.button == 1:
                     cell = get_cell(i.pos)
-                    if is_empty(cell, x, o):
-                        if is_x:
-                            x.append(cell)
+                    if is_empty(cell, x_cell_list, o_cell_list) and not is_finished:
+                        if is_x_turn:
+                            x_cell_list.append(cell)
                         else:
-                            o.append(cell)
+                            o_cell_list.append(cell)
                         center = get_center(cell)
-                        is_x = draw_tic_tac_toe(is_x, center, sc)
-                        result = check_game(x, o)
+                        is_x_turn = draw_tic_tac_toe(is_x_turn, center, sc)
+                        result = check_game(x_cell_list, o_cell_list)
                         font = pg.font.Font(None, 72)
+
+                        is_finished = result != ''
+
                         match result:
-                            case "x":
+                            case 'x':
                                 text = font.render("Победили крестики", True, BLACK)
                                 sc.blit(text, (55, 170))
                             case 'o':
@@ -148,6 +154,7 @@ if __name__ == '__main__':
                             case 'd':
                                 text = font.render("Ничья", True, BLACK)
                                 sc.blit(text, (230, 170))
+
         pg.display.update()
         pg.time.delay(20)
         
