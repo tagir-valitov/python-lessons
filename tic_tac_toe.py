@@ -21,7 +21,7 @@ def draw_x(sc, center):
     x = center[0]
     y = center[1]
     pg.draw.line(sc, WHITE, (x-50, y-50), (x+50, y+50), 10)
-    pg.draw.line(sc, WHITE, (x+50, y-50), (x-50,y+50 ), 10)
+    pg.draw.line(sc, WHITE, (x+50, y-50), (x-50, y+50), 10)
 
 
 def get_cell(pos):
