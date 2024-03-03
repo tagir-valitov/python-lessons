@@ -9,6 +9,24 @@ import sys
 # 5. Логика победы/поражения
 # 6. Размеры змейки
 
+class Snake:
+    def __init__(self):
+        self.surface_list = []
+        surface = pg.Surface((20, 20))
+        surface.fill(BLACK)
+        self.surface_list.append(surface)
+        self.pos = surface.get_rect()
+
+
+    def move(self, coord):
+
+
+    def blit(self):
+        for surface in self.surface_list:
+            sc.blit(surface, surface.get_rect())
+
+
+
 
 app_resolution = (600, 400)
 
@@ -30,10 +48,12 @@ if __name__ == '__main__':
     sc = pg.display.set_mode(app_resolution)
     pg.time.set_timer(TIMER_EVENT, 160)  # 1 second = 1000 milliseconds
     sc.fill(GREY)
-    snake = pg.Surface((20, 20))
-    snake.fill(BLACK)
-    snake_pos = snake.get_rect()
-    sc.blit(snake, snake_pos)
+    #snake = pg.Surface((20, 20))
+    #snake.fill(BLACK)
+    #snake.pos = snake.get_rect()
+    #sc.blit(snake, snake.pos)
+    snake = Snake()
+    snake.blit()
     pg.display.update()
     direction = 'r'
     apple = pg.Surface((20, 20))
@@ -57,29 +77,29 @@ if __name__ == '__main__':
                 if i.dict['key'] == 119:
                     direction = 'u'
             if i.type == TIMER_EVENT:
-                if snake_pos.x > app_resolution[0]:
-                    snake_pos.x = 0
-                if snake_pos.x < 0:
-                    snake_pos.x = app_resolution[0]
-                if snake_pos.y > app_resolution[1]:
-                    snake_pos.y = 0
-                if snake_pos.y < 0:
-                    snake_pos.y = app_resolution[1]
+                if snake.pos.x > app_resolution[0]:
+                    snake.pos.x = 0
+                if snake.pos.x < 0:
+                    snake.pos.x = app_resolution[0]
+                if snake.pos.y > app_resolution[1]:
+                    snake.pos.y = 0
+                if snake.pos.y < 0:
+                    snake.pos.y = app_resolution[1]
 
                 if direction == 'r':
-                    snake_pos = snake_pos.move(20, 0)
+                    snake.pos.move(20, 0)
                 if direction == 'l':
-                    snake_pos = snake_pos.move(-20, 0)
+                    snake.pos = snake.pos.move(-20, 0)
                 if direction == 'd':
-                    snake_pos = snake_pos.move(0, 20)
+                    snake.pos = snake.pos.move(0, 20)
                 if direction == 'u':
-                    snake_pos = snake_pos.move(0, -20)
+                    snake.pos = snake.pos.move(0, -20)
 
-                if snake_pos == apple_pos:
+                if snake.pos == apple_pos:
                     random_pos(apple_pos)
 
                 sc.fill(GREY)
-                sc.blit(snake, snake_pos)
+                snake.blit()
                 sc.blit(apple, apple_pos)
 
         pg.display.update()
