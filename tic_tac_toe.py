@@ -128,6 +128,7 @@ if __name__ == '__main__':
                 x_cell_list.clear()
                 o_cell_list.clear()
                 is_x_turn = True
+                is_finished = False
                 restart_game(sc)
             if i.type == pg.MOUSEBUTTONDOWN:
                 if i.button == 1:
