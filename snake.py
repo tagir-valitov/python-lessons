@@ -16,10 +16,9 @@ class Snake:
         surface.fill(BLACK)
         self.surface_list.append(surface)
         self.pos = surface.get_rect()
-
-
-    def move(self, coord):
-
+    # 1. Новая поверхность змейки появляется со противоположной движению стороне
+    # 2. В следующем кадре голова змейки перемещается по направлению движения
+    # 3. В следующем кадре хвост перемещается на место предыдущей поверхности
 
     def blit(self):
         for surface in self.surface_list:
