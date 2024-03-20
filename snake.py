@@ -5,9 +5,13 @@ import sys
 # 1. Сделать поле
 # 2. Сделать змейку
 # 3. Движение
+#   3.1. Новая поверхность змейки появляется со противоположной движению стороне
+#   3.2. В следующем кадре голова змейки перемещается по направлению движения
+#   3.3. В следующем кадре хвост перемещается на место предыдущей поверхности
 # 4. Добавить яблоки
 # 5. Логика победы/поражения
 # 6. Размеры змейки
+
 
 class Snake:
     def __init__(self):
@@ -16,15 +20,28 @@ class Snake:
         surface.fill(BLACK)
         self.surface_list.append(surface)
         self.pos = surface.get_rect()
-    # 1. Новая поверхность змейки появляется со противоположной движению стороне
-    # 2. В следующем кадре голова змейки перемещается по направлению движения
-    # 3. В следующем кадре хвост перемещается на место предыдущей поверхности
 
     def blit(self):
         for surface in self.surface_list:
             sc.blit(surface, surface.get_rect())
 
 
+class Apple:
+    def __init__(self):
+        self.surface = pg.Surface((20, 20))
+        self.surface.fill(RED)
+        self.rect = self.surface.get_rect()
+        self.random_pos()
+
+    def random_pos(self):
+        self.rect.x = random.randrange(0, app_resolution[0], 20)
+        self.rect.y = random.randrange(0, app_resolution[1], 20)
+
+    def get_rect(self):
+        return self.rect
+
+    def blit(self):
+        sc.blit(self.surface, self.rect)
 
 
 app_resolution = (600, 400)
@@ -45,21 +62,14 @@ def random_pos(rect):
 if __name__ == '__main__':
     pg.font.init()
     sc = pg.display.set_mode(app_resolution)
-    pg.time.set_timer(TIMER_EVENT, 160)  # 1 second = 1000 milliseconds
+    pg.time.set_timer(TIMER_EVENT, 160)
     sc.fill(GREY)
-    #snake = pg.Surface((20, 20))
-    #snake.fill(BLACK)
-    #snake.pos = snake.get_rect()
-    #sc.blit(snake, snake.pos)
     snake = Snake()
     snake.blit()
     pg.display.update()
     direction = 'r'
-    apple = pg.Surface((20, 20))
-    apple.fill(RED)
-    apple_pos = apple.get_rect()
-    random_pos(apple_pos)
-    sc.blit(apple, apple_pos)
+    apple = Apple()
+    apple.blit()
 
     while 1:
         for i in pg.event.get():
@@ -94,12 +104,13 @@ if __name__ == '__main__':
                 if direction == 'u':
                     snake.pos = snake.pos.move(0, -20)
 
-                if snake.pos == apple_pos:
-                    random_pos(apple_pos)
-
                 sc.fill(GREY)
+
+                if snake.pos == apple.get_rect():
+                    apple.random_pos()
+
+                apple.blit()
                 snake.blit()
-                sc.blit(apple, apple_pos)
 
         pg.display.update()
         pg.time.delay(20)
