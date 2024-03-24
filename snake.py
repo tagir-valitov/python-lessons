@@ -66,10 +66,12 @@ class Snake:
     def move(self):
         _, head_rect = self.get_head()
 
-        if len(self.surface_list) > 1:
-            _, tail_rect = self.surface_list[-1]
-            tail_rect = head_rect
-            self.update_rect(-1, tail_rect)
+        prev_rect = head_rect
+
+        for j in range(1, len(self.surface_list)):
+            _, rect = self.surface_list[j]
+            self.update_rect(j, prev_rect)
+            prev_rect = rect
 
         if self.direction == 'r':
             head_rect = head_rect.move(20, 0)
