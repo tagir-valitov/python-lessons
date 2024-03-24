@@ -26,13 +26,13 @@ class Snake:
             sc.blit(surface, rect)
 
     def update_direction(self, keydown_key):
-        if keydown_key == 100:
+        if keydown_key == 100 and self.direction != 'l':
             self.direction = 'r'
-        if keydown_key == 97:
+        if keydown_key == 97 and self.direction != 'r':
             self.direction = 'l'
-        if keydown_key == 115:
+        if keydown_key == 115 and self.direction != 'u':
             self.direction = 'd'
-        if keydown_key == 119:
+        if keydown_key == 119 and self.direction != 'd':
             self.direction = 'u'
 
     def get_head(self):
