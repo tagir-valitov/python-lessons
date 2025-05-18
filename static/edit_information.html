@@ -1,59 +1,95 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit</title>
+    <title>Edit Profile</title>
 </head>
 <body>
     <h1>Edit Profile</h1>
     <label> 
-        Rename:
-        <input type='text'/>
+        Name:
+        <input type='text' id="name"/>
     </label>
     
     <br/>
     <label> 
-        New_birthday:
-        <input type='text'/>
+        Birthday:
+        <input type='date' id="birthday"/>
     </label>
 
     <br/>
     <label> 
-        New_gender:
-        <input type='text'/>
+        Gender:
+        <select id="gender">
+            <option value="male">male</option>
+            <option value="female">female</option>
+            <option value="other">other</option>
+        </select>
     </label>
 
     <br/>
     <label> 
-        New_mail:
-        <input type='text'/>
+        Mail:
+        <input type='email' id="mail"/>
     </label>
     
     <br/>
     <label> 
-        New_login:
-        <input type='text'/>
+        Login:
+        <input type='text' id="login"/>
     </label>
     <br/>
     <label>
-        New_password:
-        <input type='password'/>
+        Password:
+        <input type='password' id="password"/>
     </label>
     <br/>
-    <button>save</button>
+    <button id="save">Save Changes</button>
     <br/>
-    <a href="/login_client/index.html">
-        logout
-    </a>
+    <button id="deleteInformation">Delete Account</button>
+    <br/>
+    <a href="/static/profile.html">Back to Profile</a>
 
+    <script>
+        const userData = JSON.parse(localStorage.getItem('userData'))
+        
+        document.getElementById('name').value = userData.name
+        document.getElementById('birthday').value = userData.birthday
+        document.getElementById('gender').value = userData.gender
+        document.getElementById('mail').value = userData.mail
+        document.getElementById('login').value = userData.login
+        document.getElementById('password').value = userData.password
 
+        let Save = document.getElementById('save')
+        Save.addEventListener('click', function() {
+            const updatedData = {
+                name: document.getElementById('name').value,
+                birthday: document.getElementById('birthday').value,
+                gender: document.getElementById('gender').value,
+                mail: document.getElementById('mail').value,
+                login: document.getElementById('login').value,
+                password: document.getElementById('password').value
+            }
 
+            fetch('/update', {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(updatedData)
+            })
+            window.location.href = '/static/profile.html'
+        })
+
+        let Delete = document.getElementById('deleteInformation')
+        Delete.addEventListener('click', function() {
+            fetch('/logout', {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    login: userData.login,
+                    password: userData.password
+                })
+            })
+            window.location.href = '/static/index.html'
+        })
+    </script>
 </body>
-
-
-
-
-
-
-
-
 </html>

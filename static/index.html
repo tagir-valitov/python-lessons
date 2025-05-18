@@ -2,33 +2,46 @@
 <html>
 <head>
     <title>Login</title>
-    
 </head>
-
 <body>
     <h1>Login</h1>
     <label> 
         login:
-        <input type='text'/>
+        <input type='text' id="loginInput"/>
     </label>
     <br/>
     <label>
         password:
-        <input type='password'/>
+        <input type='password' id="password"/>
     </label>
     <br/>
-    <a href="/login_client/profile.html">
-        login
-    </a>
-
+    <button id="loginButton">Login</button>
     <br/>
-    <a href="/login_client/signin.html">
+    <a href="/static/signin.html">
         sign in
     </a>
-
-
-
+    <script>
+        let loginElement = document.getElementById('loginButton')
+        loginElement.addEventListener("click", async function () {
+            let login = document.getElementById('loginInput').value
+            let password = document.getElementById('password').value
+            const data={
+                "login":login,
+                "password":password
+            }
+            fetch("/login",{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify(data)
+            })
+            .then(function(response){
+                response.json().then(function(json){
+                    localStorage.setItem('userData', JSON.stringify(json))
+                    
+                    window.location.href = "/static/profile.html"
+                })
+            })
+        })
+    </script>
 </body>
-
-
 </html>

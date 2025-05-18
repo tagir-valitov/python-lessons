@@ -30,8 +30,6 @@ def sign_in():
     return {"status":"Ok"}, 200
 
 
-
-
 @app.route("/logout", methods=['DELETE'])
 def log_out():
     data = request.json
@@ -40,6 +38,11 @@ def log_out():
             users.remove(user)
             return {"status":"Ok"}, 200
     return {"status":"NotFound"}, 404
+
+
+@app.route("/update", methods=['PUT'])
+def update_user():
+    
 
 
 if __name__ == '__main__':
@@ -52,4 +55,4 @@ if __name__ == '__main__':
         "password":"12345"
     }
     users.append(user)
-    app.run(debug=True)
+    app.run(debug=True) 

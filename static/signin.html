@@ -2,27 +2,24 @@
 <html>
 <head>
     <title>Sign in</title>
-
-    
 </head>
-
 <body>
     <h1>Sign in</h1>
     <label> 
         Name:
-        <input type='text'/>
+        <input type='text' id="name"/>
     </label>
     
     <br/>
     <label> 
         Birthday:
-        <input type='date'/>
+        <input type='date' id="birthday"/>
     </label>
 
     <br/>
     <label> 
         Gender:
-        <select>
+        <select id="gender">
             <option value="male" selected>male</option>
             <option value="female">female</option>
             <option value="other">other</option>
@@ -32,51 +29,47 @@
     <br/>
     <label> 
         Mail:
-        <input type='email'/>
+        <input type='email' id="mail"/>
     </label>
     
     <br/>
     <label> 
         Login:
-        <input type='text'/>
+        <input type='text' id="login"/>
     </label>
     <br/>
     <label>
         Password:
-        <input type='password'/>
+        <input type='password' id="password"/>
     </label>
     <br/>
-    <button id="get_invormation">Login</button>
+    <button id="get_information">Login</button>
+    <br/>
+    <a href="/login_client/index.html">Back to Login</a>
+
     <script>
+        let Data_let = document.getElementById('get_information')
+        Data_let.addEventListener('click', function(){
+            const userData = {
+                name: document.getElementById('name').value,
+                birthday: document.getElementById('birthday').value,
+                gender: document.getElementById('gender').value,
+                mail: document.getElementById('mail').value,
+                login: document.getElementById('login').value,
+                password: document.getElementById('password').value
+            }
 
-        let login = document.getElementById('get_invormation')
-        login.addEventListener('click', async function () {
-          let name = document.getElementById('name').value
-          let birthday = document.getElementById('birthday').value
-          let gender = document.getElementById('gender').value
-          let mail = document.getElementById('mail').value
-          let login = document.getElementById('login').value
-          let password = document.getElementById('password').value
-          const data = {
-            "Name":name,
-            "Bithday":birthday,
-            "Gender":gender,
-            "Mail":mail,
-            "Login":login,
-            "Password":password
-          }
-          fetch('/signin',{
-            method:'POST',
-            headers:{'Content-Type':'aplication/json'},
-            body:JSON.stringify(data)
-          })
 
-        } )
+
+        })
+
+            fetch('/api/signin', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(userData)
+            });
+
+            window.location.href = '/static/index.html'
     </script>
-
-
-
 </body>
-
-
 </html>

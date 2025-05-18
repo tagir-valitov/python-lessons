@@ -4,19 +4,25 @@
     <title>Profile</title>
 </head>
 <body>
-    <a href="/login_client/edit_information.html">
-        edit
-    </a>
+    <h1>Profile</h1>
+    <div>
+        name: <span id="name"></span><br>
+        login: <span id="login"></span><br>
+        mail: <span id="mail"></span><br>
+        birthday: <span id="birthday"></span><br>
+        gender: <span id="gender"></span><br/>
+        password: <span id="password"></span>
+    </div>
+    <a href="/static/edit_information.html">Edit_or_logout</a>
 
-
+    <script>
+        const data = JSON.parse(localStorage.getItem('userData'))
+        document.getElementById('name').textContent = data.name
+        document.getElementById('login').textContent = data.login
+        document.getElementById('mail').textContent = data.mail
+        document.getElementById('birthday').textContent = data.birthday
+        document.getElementById('gender').textContent = data.gender
+        document.getElementById('password').textContent = data.password
+    </script>
 </body>
-
-
-
-
-
-
-
-
-
 </html>
