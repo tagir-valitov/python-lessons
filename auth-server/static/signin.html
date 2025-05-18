@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Sign in</title>
 </head>
 <body>
     <h1>Sign in</h1>
+
     <label> 
         Name:
         <input type='text' id="name"/>
@@ -37,19 +38,23 @@
         Login:
         <input type='text' id="login"/>
     </label>
+
     <br/>
     <label>
         Password:
         <input type='password' id="password"/>
     </label>
+
     <br/>
-    <button id="get_information">Login</button>
+    <button id="sign_in">Sign in</button>
+
     <br/>
-    <a href="/login_client/index.html">Back to Login</a>
+    <a href="/static/index.html">Back to Login</a>
 
     <script>
-        let Data_let = document.getElementById('get_information')
-        Data_let.addEventListener('click', function(){
+        let buttonEl = document.getElementById('sign_in')
+
+        buttonEl.addEventListener('click', function() {
             const userData = {
                 name: document.getElementById('name').value,
                 birthday: document.getElementById('birthday').value,
@@ -59,17 +64,16 @@
                 password: document.getElementById('password').value
             }
 
-
-
-        })
-
-            fetch('/api/signin', {
+            fetch('/signin', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(userData)
-            });
+            })
 
-            window.location.href = '/static/index.html'
+            window.location.href = 'index.html'
+        })
+
+
     </script>
 </body>
 </html>

@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Profile</title>
 </head>
 <body>
-    <h1>Profile</h1>
+    <h1>Profile:</h1>
     <div>
-        name: <span id="name"></span><br>
-        login: <span id="login"></span><br>
-        mail: <span id="mail"></span><br>
-        birthday: <span id="birthday"></span><br>
-        gender: <span id="gender"></span><br/>
-        password: <span id="password"></span>
+        Name: <span id="name"></span><br>
+        Login: <span id="login"></span><br>
+        Mail: <span id="mail"></span><br>
+        Birthday: <span id="birthday"></span><br>
+        Gender: <span id="gender"></span><br/>
     </div>
-    <a href="/static/edit_information.html">Edit_or_logout</a>
+
+    <a href="/static/edit.html">Edit information</a>
+    <button id="logout">Logout</button>
 
     <script>
         const data = JSON.parse(localStorage.getItem('userData'))
+
         document.getElementById('name').textContent = data.name
         document.getElementById('login').textContent = data.login
         document.getElementById('mail').textContent = data.mail
         document.getElementById('birthday').textContent = data.birthday
         document.getElementById('gender').textContent = data.gender
-        document.getElementById('password').textContent = data.password
     </script>
 </body>
 </html>
