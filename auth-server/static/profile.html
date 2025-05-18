@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <title>Profile</title>
+    <link rel="stylesheet" href="/static/styles.css"/>
 </head>
 <body>
     <h1>Profile:</h1>
-    <div>
+    <div class="profile-info">
         Name: <span id="name"></span><br>
         Login: <span id="login"></span><br>
         Mail: <span id="mail"></span><br>
@@ -13,8 +14,9 @@
         Gender: <span id="gender"></span><br/>
     </div>
 
+    <br>
+    <button id="logout">Log out</button>
     <a href="/static/edit.html">Edit information</a>
-    <button id="logout">Logout</button>
 
     <script>
         const data = JSON.parse(localStorage.getItem('userData'))

@@ -7,7 +7,7 @@ users = []
 
 @app.route("/login", methods=['POST'])
 def login():
-    # найти в списке user логин и пароль которые прийдут к нам
+    # найти в списке user логин и пароль, которые прейдут к нам
     data = request.json
     for user in users:
         if data['login'] == user['login'] and data['password'] == user['password']:
