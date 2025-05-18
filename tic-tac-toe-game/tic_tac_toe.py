@@ -1,18 +1,6 @@
 import pygame as pg
 import sys
 
-# 1. Создать приложение
-# 2. Расчертить поле
-#                           1 | 2 | 3
-#                           ---------
-#                           4 | 5 | 6
-#                           ---------
-#                           7 | 8 | 9
-# 3. Написать функции которые будут изображать крестик и нолик
-# 4. Отслеживание кликов мышки
-# 5. Условие выйгрыша и проигрыша
-
-
 def draw_circle(sc, center):
     pg.draw.circle(sc, WHITE, center, 50, 10)
         
@@ -43,6 +31,7 @@ def get_cell(pos):
         return 8
     if 400 <= pos[0] < 600 and 400 <= pos[1] < 600:
         return 9
+    return -1
 
 
 def get_center(cell):
@@ -65,6 +54,7 @@ def get_center(cell):
             return 300, 500
         case 9:
             return 500, 500
+    return -1
 
 
 def draw_tic_tac_toe(is_x, center, sc):
