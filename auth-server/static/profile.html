@@ -15,7 +15,7 @@
     </div>
 
     <br>
-    <button id="logout">Log out</button>
+    <button id="logout" style="background-color: #a70505">Log out</button>
     <a href="/static/edit.html">Edit information</a>
 
     <script>
@@ -26,6 +26,12 @@
         document.getElementById('mail').textContent = data.mail
         document.getElementById('birthday').textContent = data.birthday
         document.getElementById('gender').textContent = data.gender
+
+        let logoutEl = document.getElementById('logout')
+        logoutEl.addEventListener('click', function() {
+            localStorage.removeItem('userData')
+            window.location.href = 'index.html'
+        })
     </script>
 </body>
 </html>

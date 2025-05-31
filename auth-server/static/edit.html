@@ -51,7 +51,7 @@
     <button id="save">Save Changes</button>
 
     <br/>
-    <button id="delete">Delete Account</button>
+    <button id="delete" style="background-color: #a70505">Delete Account</button>
 
     <br/>
     <a href="/static/profile.html">Back to Profile</a>
@@ -79,16 +79,19 @@
             }
 
             fetch('/update', {
-                method: 'PUT',
+                method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(updatedData)
             })
+
+            localStorage.setItem('userData', JSON.stringify(updatedData))
+
             window.location.href = 'profile.html'
         })
 
         let deleteEl = document.getElementById('delete')
         deleteEl.addEventListener('click', function() {
-            fetch('/logout', {
+            fetch('/delete', {
                 method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({

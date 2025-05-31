@@ -5,76 +5,88 @@
     <link rel="stylesheet" href="/static/styles.css"/>
 </head>
 <body>
-    <h1>Sign in</h1>
+<h1>Sign in</h1>
 
-    <label> 
-        Name:
-        <input type='text' id="name"/>
-    </label>
-    
-    <br/>
-    <label> 
-        Birthday:
-        <input type='date' id="birthday"/>
-    </label>
+<label>
+    Name:
+    <input type='text' id="name"/>
+</label>
 
-    <br/>
-    <label> 
-        Gender:
-        <select id="gender">
-            <option value="male" selected>male</option>
-            <option value="female">female</option>
-            <option value="other">other</option>
-        </select>
-    </label>
+<br/>
+<label>
+    Birthday:
+    <input type='date' id="birthday"/>
+</label>
 
-    <br/>
-    <label> 
-        Mail:
-        <input type='email' id="mail"/>
-    </label>
-    
-    <br/>
-    <label> 
-        Login:
-        <input type='text' id="login"/>
-    </label>
+<br/>
+<label>
+    Gender:
+    <select id="gender">
+        <option value="male" selected>male</option>
+        <option value="female">female</option>
+        <option value="other">other</option>
+    </select>
+</label>
 
-    <br/>
-    <label>
-        Password:
-        <input type='password' id="password"/>
-    </label>
+<br/>
+<label>
+    Mail:
+    <input type='email' id="mail"/>
+</label>
 
-    <br/>
-    <button id="sign_in">Sign in</button>
+<br/>
+<label>
+    Login:
+    <input type='text' id="login"/>
+</label>
 
-    <br/>
-    <a href="/static/index.html">Back to Login</a>
+<br/>
+<label>
+    Password:
+    <input type='password' id="password"/>
+</label>
 
-    <script>
-        let buttonEl = document.getElementById('sign_in')
+<br/>
+<button id="sign_in">Sign in</button>
 
-        buttonEl.addEventListener('click', function() {
-            const userData = {
-                name: document.getElementById('name').value,
-                birthday: document.getElementById('birthday').value,
-                gender: document.getElementById('gender').value,
-                mail: document.getElementById('mail').value,
-                login: document.getElementById('login').value,
-                password: document.getElementById('password').value
-            }
+<br/>
+<a href="/static/index.html">Back to Login</a>
 
-            fetch('/signin', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(userData)
-            })
+<script>
+    let buttonEl = document.getElementById('sign_in')
 
-            window.location.href = 'index.html'
+    buttonEl.addEventListener('click', function () {
+        const userData = {
+            name: document.getElementById('name').value,
+            birthday: document.getElementById('birthday').value,
+            gender: document.getElementById('gender').value,
+            mail: document.getElementById('mail').value,
+            login: document.getElementById('login').value,
+            password: document.getElementById('password').value
+        }
+
+        fetch('/signin', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(userData)
         })
+            .then((response) => {
+                if (response.status !== 200) {
+                    return null
+                } else {
+                    return response.json()
+                }
+            })
+            .then((json) => {
+                if (json === null) {
+                    window.location.href = "error.html"
+                } else {
+                    window.location.href = 'index.html'
+                }
+            })
+    })
 
 
-    </script>
+</script>
 </body>
 </html>
