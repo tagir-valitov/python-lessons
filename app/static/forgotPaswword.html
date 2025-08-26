@@ -1,0 +1,37 @@
+<!DOCTYPE html>  
+<html>  
+<head>
+    <link rel="stylesheet" href="/static/styles.css"/> 
+    <title>ForgotPassword</title>  
+<meta charset="utf-8"/>  
+</head>  
+<body>
+    <h1>ForgotPassword</h1>
+
+    <label> 
+        YourEmail:
+        <input type='text' id="email"/>
+    </label>
+    <br/>
+    <button id="send">send</button>
+    <script>
+        document.getElementById('send').addEventListener('click', function() {
+            const email = document.getElementById('email').value;
+            
+            fetch('/send-password', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ mail: email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Password has been sent to your email')
+                window.location.href = 'index.html'
+            })
+            .catch(error => {
+                alert('Error: ' + error.message)
+            })
+        })
+    </script>  
+</body>  
+</html>  
