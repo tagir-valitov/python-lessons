@@ -1,10 +1,12 @@
 from fastapi import FastAPI, Query
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine, Column, Integer, String, select, Boolean
 from sqlalchemy.orm import sessionmaker, declarative_base
 import psycopg2
 import uvicorn
 from pydantic import BaseModel
 from http import HTTPStatus
+from datetime import date
 
 
 DataBase_URL= "postgresql://postgres:postgres@localhost:5432/users"
@@ -42,14 +44,34 @@ class Hotel(Base):
 
 
 app = FastAPI()
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 class HotelSearchRequest(BaseModel):
     city: str
     guests: int
-    date_to: str
-    date_for: str
+    date_from: date
+    date_to: date
 
 
+class HotelResponse(BaseModel):
+    name: str
+    location: str
+    room_quantity: int
+    stars: int
+    has_spa: bool
+    has_swimming_pool: bool
+
+
+class ListHotels(BaseModel):
+    data: list[HotelResponse]
+    class Config:
+        from_attributes = True
+    
 @app.get("/get_user")
 def get_users():
     with SessionLocal() as session:
@@ -62,20 +84,34 @@ def get_users():
         #return session.query(Hotel).all()
 
 
-@app.post("/get_hotel")
-def get_hotel(request: HotelSearchRequest):
-    with SessionLocal as session:
-        if request.guests < 0:
-            return {"status": "NotFound"}, 404
-        if request.city.strip():
-            return {"status": "NotFound"}, 404
-        return session.query(Hotel).all(), 200
-
+@app.post("/check_hotel")
+def check_hotel(request: HotelSearchRequest):
+    if request.guests <= 0:
+        return {"status": "NotFound"}, 404
+    else:
+        return {"status": "Ok"},200
         
-    
 
 
-    
+@app.get("/get_hotels", response_model=ListHotels)
+def get_hotels(request: HotelSearchRequest)-> list[HotelResponse]:
+    with SessionLocal() as session:
+        city = request.city
+        hotels = session.query(Hotel).filter(Hotel.location == city).all()
+        if not hotels:
+            return {"status": "NotFound"}, 404
+        hotel_list = [
+            HotelResponse(
+                name=hotel.name,
+                location=hotel.location,
+                room_quantity=hotel.room_quantity,
+                stars=hotel.stars,
+                has_spa=hotel.has_spa,
+                has_swimming_pool=hotel.has_swimming_pool
+            ) for hotel in hotels
+        ]
+        
+        return ListHotels(data=hotel_list)
 
 if __name__ == '__main__':
     uvicorn.run("fast:app", reload=True)

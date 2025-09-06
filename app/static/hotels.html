@@ -3,6 +3,7 @@
 <head>
     <title>Поиск отелей</title>
     <link rel="stylesheet" href="/static/styles.css"/>
+    <meta charset="UTF-8">
 </head>
 <body>
     <h1>Поиск отелей</h1>
@@ -10,17 +11,17 @@
     
         <label>Город: <input id="city" type="text" placeholder="Куда едем?"></label><br>
         <label>Гости: <input id="guests" type="number" placeholder="Сколько человек едет?"></label><br>
-        <label>Дата заезда: <input id="date_to" type="date"></label><br>
-        <label>Дата выезда: <input id="date_for" type="date"></label><br>
+        <label>Дата заезда: <input id="date_from" type="date"></label><br>
+        <label>Дата выезда: <input id="date_to" type="date"></label><br>
         <button id="search">Найти отели</button>
     <script>
         let check_hotel = document.getElementById("search")
         check_hotel.addEventListener('click', function(){
             const hotelData = {
             city: document.getElementById("city").value,
-            guests: document.getElementById("guests").value,
-            date_to: document.getElementById("date_to").value,
-            date_for: document.getElementById("date_for").value
+            guests: parseInt(document.getElementById("guests").value),
+            date_from: document.getElementById("date_from").value,
+            date_to: document.getElementById("date_to").value
         }
 
         for (let key in hotelData) {
@@ -29,22 +30,26 @@
                 return
             }
         }
-
-        fetch("/get_hotel", {
+        fetch("http://localhost:8000/check_hotel", {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(hotelData)
-        })
-            .then((response) => {
-                if (response.status == 404) {
-                    return alert("ошибка не правильно введенные данные")
-                } else {
-                    return response.json()
-                }
-            
+})
+        
 
-        })
-    })
+        .then((response) => {
+            if (response.status === 404) {
+                alert("Проверьте верность указанных данных")}
+            else if (response.status === 200) {
+                alert("Всё правильно");
+                window.location.href = "get_hotels.html"}
+            else {
+                alert("Произошла ошибка: " + response.status)
+    }
+})
+
+        
+})
     </script>
     
 

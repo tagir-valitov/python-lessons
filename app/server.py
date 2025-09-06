@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
+from flask_cors import CORS
 from http import HTTPStatus
 import psycopg2
 
@@ -9,6 +10,7 @@ import psycopg2
 
 
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:postgres@localhost:5432/users"
 mail = Mail(app)
 db = SQLAlchemy(app)
