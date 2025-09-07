@@ -2,3 +2,4 @@
 venv
 .venv
 *.iml
+__pycache__
