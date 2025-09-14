@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sign in</title>
+    <link rel="stylesheet" href="/static/styles.css"/>
+</head>
+<body>
+<h1>Sign in</h1>
+
+<label>
+    Name:
+    <input type='text' id="name"/>
+</label>
+
+<br/>
+<label>
+    Birthday:
+    <input type='date' id="birthday"/>
+</label>
+
+<br/>
+<label>
+    Gender:
+    <select id="gender">
+        <option value="male" selected>male</option>
+        <option value="female">female</option>
+        <option value="other">other</option>
+    </select>
+</label>
+
+<br/>
+<label>
+    Mail:
+    <input type='email' id="mail"/>
+</label>
+
+<br/>
+<label>
+    Login:
+    <input type='text' id="login"/>
+</label>
+
+<br/>
+<label>
+    Password:
+    <input type='password' id="password"/>
+</label>
+
+<br/>
+<button id="sign_in">Sign in</button>
+
+<br/>
+<a href="/static/index.html">Back to Login</a>
+<script>
+    async function sha256(data) {
+        const arrayData = new TextEncoder().encode(data)
+        const hashBuffer = await window.crypto.subtle.digest("SHA-256", arrayData)
+        return new TextDecoder().decode(hashBuffer)
+    }
+
+    let buttonEl = document.getElementById('sign_in')
+
+    buttonEl.addEventListener('click', async function () {
+        const userData = {
+            name: document.getElementById('name').value,
+            birthday: document.getElementById('birthday').value,
+            gender: document.getElementById('gender').value,
+            mail: document.getElementById('mail').value,
+            login: document.getElementById('login').value,
+            password: await sha256(document.getElementById('password').value)
+        }
+
+        console.log(userData.password)
+
+        for (let key in userData) {
+            if (!userData[key]) {
+                alert('Please fill in all fields')
+                return
+            }
+        }
+
+        fetch('/signin', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(userData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "Ok") {
+                alert('Registration successful!')
+                window.location.href = 'index.html'
+            } else {
+                alert('Error: ' + data.status)
+            }
+        })
+        .catch(error => {
+            alert('Error during registration: ' + error.message)
+        })
+    })
+</script>
+</body>
+</html> 
